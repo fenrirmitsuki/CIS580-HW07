@@ -61,27 +61,56 @@ namespace ParallaxStarter
             var playerLayer = new ParallaxLayer(this);
             playerLayer.Sprites.Add(player);
             playerLayer.DrawOrder = 2;
-            var playerScrollController = playerLayer.ScrollController as AutoScrollController;
-            playerScrollController.Speed = 80f;
             Components.Add(playerLayer);
 
-            var midgroundTexture = Content.Load<Texture2D>("midground");
-            var midgroundSprite = new StaticSprite(midgroundTexture, Vector2.Zero);
+            var midgroundTextures = new Texture2D[]
+            {
+                Content.Load<Texture2D>("midground1"),
+                Content.Load<Texture2D>("midground2")
+            };
+            var midgroundSprites = new StaticSprite[]
+            {
+                new StaticSprite(midgroundTextures[0], Vector2.Zero),
+                new StaticSprite(midgroundTextures[1], new Vector2(3500, 0)),
+        };
             var midgroundLayer = new ParallaxLayer(this);
-            midgroundLayer.Sprites.Add(midgroundSprite);
+            midgroundLayer.Sprites.AddRange(midgroundSprites);
             midgroundLayer.DrawOrder = 1;
-            var midgroundScrollController = midgroundLayer.ScrollController as AutoScrollController;
-            midgroundScrollController.Speed = 40f;
+            //var midgroundScrollController = midgroundLayer.ScrollController as AutoScrollController;
+            //midgroundScrollController.Speed = 40f;
             Components.Add(midgroundLayer);
 
-            var foregroundTexture = Content.Load<Texture2D>("foreground");
-            var foregroundSprite = new StaticSprite(foregroundTexture, Vector2.Zero);
+            var foregroundTextures = new List<Texture2D>()
+            {
+                Content.Load<Texture2D>("foreground1"),
+                Content.Load<Texture2D>("foreground2"),
+                Content.Load<Texture2D>("foreground3"),
+                Content.Load<Texture2D>("foreground4")
+            };
+            var foregroundSprites = new List<StaticSprite>();
+            for(int i = 0; i < foregroundTextures.Count; i++)
+            {
+                var position = new Vector2(i*3500, 0);
+                var sprite = new StaticSprite(foregroundTextures[i], position);
+                foregroundSprites.Add(sprite);
+            }
             var foregroundLayer = new ParallaxLayer(this);
-            foregroundLayer.Sprites.Add(foregroundSprite);
+            foreach(var sprite in foregroundSprites)
+            {
+                foregroundLayer.Sprites.Add(sprite);
+            }
             foregroundLayer.DrawOrder = 4;
-            var foregroundScrollController = foregroundLayer.ScrollController as AutoScrollController;
-            foregroundScrollController.Speed = 80f;
+            //var foregroundScrollController = foregroundLayer.ScrollController as AutoScrollController;
+            //foregroundScrollController.Speed = 80f;
             Components.Add(foregroundLayer);
+
+            //var playerScrollController = playerLayer.ScrollController as AutoScrollController;
+            //playerScrollController.Speed = 80f;
+
+            backgroundLayer.ScrollController = new PlayerTrackingScrollController(player, 0.1f);
+            midgroundLayer.ScrollController = new PlayerTrackingScrollController(player, 0.4f);
+            playerLayer.ScrollController = new PlayerTrackingScrollController(player, 1.0f);
+            foregroundLayer.ScrollController = new PlayerTrackingScrollController(player, 1.0f);
         }
 
         /// <summary>
