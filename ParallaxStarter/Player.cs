@@ -46,7 +46,7 @@ namespace ParallaxStarter
         /// <summary>
         /// How fast the player moves
         /// </summary>
-        public float Speed { get; set; } = 100;
+        public float Speed { get; set; } = 200;
 
         /// <summary>
         /// Constructs a player
@@ -108,7 +108,7 @@ namespace ParallaxStarter
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // Render the helicopter, rotating about the rotors
-            spriteBatch.Draw(spritesheet, Position, sourceRect, Color.White, angle, origin, 1f, SpriteEffects.None, 0.7f);
+            spriteBatch.Draw(spritesheet, Position, sourceRect, Color.White, angle, origin, 1, SpriteEffects.None, 0.7f);
         }
 
     }
